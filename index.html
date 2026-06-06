@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App-ads.txt Host</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --teal: #0F6E56;
+      --teal-light: #E1F5EE;
+      --teal-dark: #085041;
+      --ink: #1A1714;
+      --ink-soft: #6B7280;
+      --border: #E5E7EB;
+      --bg: #F9FAFB;
+      --white: #FFFFFF;
+      --green: #15803D;
+      --green-bg: #DCFCE7;
+      --mono: 'Courier New', Courier, monospace;
+      --sans: system-ui, -apple-system, sans-serif;
+    }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .status-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--green-bg);
+      border-radius: 100px;
+      padding: 6px 16px;
+      width: fit-content;
+      margin: 0 auto 1.5rem;
+    }
+    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+    .subtitle { font-size: 14px; color: var(--ink-soft); margin-bottom: 2rem; line-height: 1.6; }
+
+    .url-box {
+      background: #111827;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+    .url-label { font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .url-text { font-family: var(--mono); font-size: 13px; color: #6EE7B7; word-break: break-all; }
+    .copy-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #D1D5DB;
+      border-radius: 7px;
+      padding: 7px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: var(--sans);
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.15); }
+
+    .view-btn {
+      display: inline-block;
+      background: var(--teal);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      transition: background .15s;
+    }
+    .view-btn:hover { background: var(--teal-dark); }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+    .entries-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); margin-bottom: 12px; text-align: left; }
+    .entry-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .entry-row:last-child { border-bottom: none; }
+    .entry-domain { font-family: var(--mono); font-size: 12px; color: var(--ink); }
+    .entry-id { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .pill-direct { background: var(--teal-light); color: var(--teal-dark); }
+    .pill-reseller { background: #FEF3C7; color: #92400E; }
+    .pill-pending { background: #FEF3C7; color: #92400E; }
+
+    .instructions {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      margin-top: 1.5rem;
+    }
+    .instructions h3 { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+    .instructions ol { padding-left: 1.2rem; }
+    .instructions li { font-size: 12px; color: var(--ink-soft); margin-bottom: 7px; line-height: 1.6; }
+    .instructions code { font-family: var(--mono); font-size: 11px; background: var(--border); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
+    .instructions strong { color: var(--ink); }
+
+    footer { margin-top: 2rem; font-size: 12px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="status-line">
+    <span class="status-dot"></span>
+    app-ads.txt is live
+  </div>
+
+  <h1>App-ads.txt Host</h1>
+  <p class="subtitle">
+    This site hosts your <code style="font-family:var(--mono);font-size:12px;background:#F3F4F6;padding:2px 6px;border-radius:4px">app-ads.txt</code> file for ad network crawler verification. Point your developer website here and ad networks will automatically find and verify your authorized sellers.
+  </p>
+
+  <div class="url-box">
+    <div>
+      <div class="url-label">Live file URL</div>
+      <div class="url-text" id="file-url">Loading...</div>
+    </div>
+    <button class="copy-btn" onclick="copyUrl()">Copy</button>
+  </div>
+
+  <a href="app-ads.txt" target="_blank" class="view-btn">View app-ads.txt →</a>
+
+  <hr class="divider" />
+
+  <div class="entries-title">Current authorized sellers</div>
+
+  <div class="entry-row">
+    <div>
+      <div class="entry-domain">applovin.com</div>
+      <div class="entry-id">PENDING_APPROVAL</div>
+    </div>
+    <div><span class="pill pill-direct">DIRECT</span></div>
+    <div style="font-family:var(--mono);font-size:10px;color:#9CA3AF">c4a17364cf6e680a</div>
+  </div>
+
+  <div class="entry-row">
+    <div>
+      <div class="entry-domain">ironsrc.com</div>
+      <div class="entry-id">11270679362841</div>
+    </div>
+    <div><span class="pill pill-direct">DIRECT</span></div>
+    <div style="font-family:var(--mono);font-size:10px;color:#9CA3AF">—</div>
+  </div>
+
+  <div class="instructions">
+    <h3>📋 How to use this</h3>
+    <ol>
+      <li>
+        <strong>Google Play Console:</strong> Go to <em>Setup → Developer page</em> and set your developer website to <code id="domain-display">your-domain.github.io</code>
+      </li>
+      <li>
+        <strong>App Store Connect:</strong> Go to <em>My Apps → App Info</em> and set your Marketing URL to this domain.
+      </li>
+      <li>
+        Ad network crawlers will automatically find <code>yourdomain.com/app-ads.txt</code> within 24 hours and approve your authorized sellers.
+      </li>
+      <li>
+        To add more ad networks, edit <code>app-ads.txt</code> in your GitHub repo and push the change.
+      </li>
+    </ol>
+  </div>
+</div>
+
+<footer>Hosted on GitHub Pages · IAB app-ads.txt v1.0 compliant</footer>
+
+<script>
+  const origin = window.location.origin;
+  const fileUrl = origin + "/app-ads.txt";
+  document.getElementById("file-url").textContent = fileUrl;
+  document.getElementById("domain-display").textContent = window.location.hostname;
+
+  function copyUrl() {
+    navigator.clipboard.writeText(fileUrl).then(() => {
+      const btn = document.querySelector(".copy-btn");
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = "Copy"; }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
